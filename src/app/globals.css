@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────
+   Sterling Legal — design tokens (provisional brand palette)
+   Change these values to re-skin the whole site.
+   ─────────────────────────────────────────────────────────── */
+@theme {
+  --color-navy: #14263d;
+  --color-navy-deep: #0d1a2b;
+  --color-navy-soft: #1d3552;
+  --color-gold: #b69a68;
+  --color-gold-light: #d3bc90;
+  /* Darker gold for small text on light backgrounds (WCAG AA). */
+  --color-gold-deep: #7a6234;
+  --color-ivory: #f5f2ec;
+  --color-ivory-deep: #ebe5d8;
+  --color-charcoal: #292d32;
+  --color-grey: #747a82;
+  /* Darker grey for body copy on light backgrounds (WCAG AA). */
+  --color-grey-dark: #565c64;
+
+  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia,
+    "Times New Roman", serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-navy-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Gentle hero image drift — disabled for reduced-motion users. */
+  .kenburns {
+    animation: kenburns 26s var(--ease-premium) infinite alternate;
+    transform-origin: 60% 55%;
+    will-change: transform;
+  }
+
+  /* One-time page entrance used by app/template.tsx. */
+  .page-enter {
+    animation: page-enter 0.55s var(--ease-premium) backwards;
+  }
+
+  /* Hero text entrance (CSS-only so it never delays first paint). */
+  .rise {
+    animation: rise 0.9s var(--ease-premium) backwards;
+  }
+  .rise-1 {
+    animation-delay: 0.08s;
+  }
+  .rise-2 {
+    animation-delay: 0.2s;
+  }
+  .rise-3 {
+    animation-delay: 0.34s;
+  }
+  .rise-4 {
+    animation-delay: 0.48s;
+  }
+
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--color-gold),
+      color-mix(in srgb, var(--color-gold) 0%, transparent)
+    );
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.09) translate3d(-1.2%, -0.8%, 0);
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns,
+  .page-enter,
+  .rise {
+    animation: none !important;
+  }
+}
